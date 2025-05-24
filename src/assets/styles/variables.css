@@ -4,8 +4,11 @@
     --color-error: #E61236;
     --color-background: #f0f0f0;
     --color-border: #D4D4D4;
-    --color-muted: #B6B6B6;
     --color-label: #9B9B9B;
+    --color-placeholder: #BDBDBD;
     --color-text-dark: #263238;
-    --color-white: #ffffff;
+
+    --font-primary: 'Vazir';
+
+    --radius-xs: 4px;
 }
