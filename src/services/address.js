@@ -9,6 +9,10 @@ const api = axios.create({
   },
 });
 
+export function fetchAddressList() {
+  return api.get("/address");
+}
+
 export function createAddress(data) {
   return api.post("/address", {
     first_name: data.firstName,
