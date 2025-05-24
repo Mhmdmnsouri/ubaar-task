@@ -43,14 +43,10 @@
 
 <script setup>
 import { reactive } from 'vue'
-import { useAddressValidation } from '@/composables/useValidation'
 import CloseIcon from '@/assets/icons/Close.vue'
+import { useAddressValidation } from '@/composables/useValidation'
 
 const emit = defineEmits(['next-step'])
-function submitForm() {
-    if (onSubmit()) emit('next-step', { ...form })
-}
-defineExpose({ submitForm })
 
 const form = reactive({
     firstName: '',
@@ -64,17 +60,52 @@ const form = reactive({
 const { errors, validate } = useAddressValidation()
 
 const fields = [
-    { model: 'firstName', label: 'نام', placeholder: 'مثال: محمد', type: 'text' },
-    { model: 'lastName', label: 'نام خانوادگی', placeholder: 'مثال: رضایی', type: 'text' },
-    { model: 'mobile', label: 'شماره تلفن همراه', placeholder: '۰۹۱۲۱۲۳۴۵۶۸۷', type: 'tel' },
-    { model: 'landline', label: 'شماره تلفن ثابت', placeholder: '۰۲۱۴۴۲۵۶۷۸۰', type: 'tel', optional: true },
-    { model: 'address', label: 'آدرس', placeholder: '', type: 'text' },
+    {
+        model: 'firstName',
+        label: 'نام',
+        placeholder: 'مثال: محمد',
+        type: 'text',
+    },
+    {
+        model: 'lastName',
+        label: 'نام خانوادگی',
+        placeholder: 'مثال: رضایی',
+        type: 'text',
+    },
+    {
+        model: 'mobile',
+        label: 'شماره تلفن همراه',
+        placeholder: '۰۹۱۲۱۲۳۴۵۶۸۷',
+        type: 'tel',
+    },
+    {
+        model: 'landline',
+        label: 'شماره تلفن ثابت',
+        placeholder: '۰۲۱۴۴۲۵۶۷۸۰',
+        type: 'tel',
+        optional: true,
+    },
+    {
+        model: 'address',
+        label: 'آدرس',
+        placeholder: '',
+        type: 'text',
+    },
 ]
 
-function onSubmit() {
+const onSubmit = () => {
     return validate(form)
 }
+
+const submitForm = () => {
+    if (onSubmit()) {
+        emit('next-step', { ...form })
+    }
+}
+
+defineExpose({ submitForm })
 </script>
+
 
 <style scoped>
 .address-form-container {

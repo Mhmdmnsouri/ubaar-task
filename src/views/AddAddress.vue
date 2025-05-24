@@ -28,51 +28,55 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+
 import AddressForm from '@/components/AddressForm.vue'
 import MapPicker from '@/components/MapPicker.vue'
 import Success from '@/components/Success.vue'
-import { createAddress } from '@/services/address'
 import UiButton from '@/components/ui/Button.vue'
 import Toast from '@/components/ui/Toast.vue'
 import RightIcon from '@/assets/icons/Right.vue'
 
-
+import { createAddress } from '@/services/address'
 
 const router = useRouter()
+
 const step = ref(1)
+const isLoading = ref(false)
 const formData = ref(null)
 const location = ref(null)
-const isLoading = ref(false)
+
 const addressFormRef = ref(null)
+
 const toastMessage = ref('')
 const toastVisible = ref(false)
 
-function showToast(msg) {
-    toastMessage.value = msg
+const showToast = (message) => {
+    toastMessage.value = message
     toastVisible.value = true
 }
-function hideToast() {
+
+const hideToast = () => {
     toastVisible.value = false
 }
 
-function onFormNext(data) {
+const onFormNext = (data) => {
     formData.value = data
     step.value = 2
 }
 
-function onLocationSelected(latLng) {
+const onLocationSelected = (latLng) => {
     location.value = latLng
 }
 
-function onBackToForm() {
+const onBackToForm = () => {
     step.value = 1
 }
 
-async function onSubmit() {
+const onSubmit = async () => {
     if (isLoading.value) return
 
     if (step.value === 1) {
-        addressFormRef.value.submitForm()
+        addressFormRef.value?.submitForm()
         return
     }
 
@@ -90,8 +94,8 @@ async function onSubmit() {
         }
         await createAddress(payload)
         step.value = 3
-    } catch (err) {
-        console.error(err)
+    } catch (error) {
+        console.error(error)
         showToast('خطا در ثبت نهایی آدرس. لطفاً دوباره تلاش کنید.')
     } finally {
         isLoading.value = false
@@ -105,7 +109,7 @@ async function onSubmit() {
 }
 
 .add-address-page {
-    height: calc(100vh - 162px);
+    height: calc(100vh - 250px);
     display: flex;
     flex-direction: column;
     margin: 0 auto;
@@ -151,7 +155,7 @@ async function onSubmit() {
     transition: all .2s;
 }
 
-.back-btn:hover{
+.back-btn:hover {
     transform: translateX(5px);
 }
 

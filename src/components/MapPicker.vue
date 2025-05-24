@@ -1,7 +1,7 @@
 <template>
     <div class="map-picker">
         <div class="map-header">
-            <button class="back-btn" @click="onBack">
+            <button class="back-btn" @click="handleBack">
                 <RightIcon />
             </button>
             <span class="title mobile-only">انتخاب موقعیت</span>
@@ -24,36 +24,45 @@ const mapRef = ref(null)
 const mapInstance = ref(null)
 const marker = ref(null)
 
-function onBack() {
+const handleBack = () => {
     emit('back')
 }
 
-onMounted(() => {
-    mapInstance.value = L.map(mapRef.value, { preferCanvas: true, zoomControl: false })
-        .setView([35.6892, 51.3890], 13)
+const initializeMap = () => {
+    if (mapInstance.value) return
+
+    mapInstance.value = L.map(mapRef.value, {
+        preferCanvas: true,
+        zoomControl: false,
+    }).setView([35.6892, 51.3890], 13)
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors',
     }).addTo(mapInstance.value)
 
-    mapInstance.value.on('click', ({ latlng }) => {
-        const { lat, lng } = latlng
+    mapInstance.value.on('click', ({ latlng: { lat, lng } }) => {
+        const latLng = { lat, lng }
 
-        if (marker.value) marker.value.setLatLng(latlng)
-        else marker.value = L.marker(latlng).addTo(mapInstance.value)
+        if (marker.value) {
+            marker.value.setLatLng(latLng)
+        } else {
+            marker.value = L.marker(latLng).addTo(mapInstance.value)
+        }
 
-        emit('location-selected', { lat, lng })
+        emit('location-selected', latLng)
     })
-})
+}
 
-onUnmounted(() => {
-    if (mapInstance.value) {
-        mapInstance.value.off()
-        mapInstance.value.remove()
-        mapInstance.value = null
-    }
-})
+const cleanupMap = () => {
+    mapInstance.value?.off()
+    mapInstance.value?.remove()
+    mapInstance.value = null
+}
+
+onMounted(initializeMap)
+onUnmounted(cleanupMap)
 </script>
+
 
 <style scoped>
 .map-picker {
