@@ -1,7 +1,21 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
 body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     direction: rtl;
-    background-color: var(--bgColor);
+    background-color: var(--color-background);
+    font-family: var(--font-primary);
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
 }
