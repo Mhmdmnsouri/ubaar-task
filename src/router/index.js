@@ -13,6 +13,11 @@ const router = createRouter({
       path: "/",
       redirect: { name: "address.add" },
     },
+    {
+      path: "/address-list",
+      name: "address.list",
+      component: () => import("../views/AddressList.vue"),
+    },
   ],
 });
 
