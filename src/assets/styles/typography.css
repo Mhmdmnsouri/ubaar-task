@@ -1,0 +1,10 @@
+/* src/assets/styles/typography.css */
+@font-face {
+    font-family: 'Vazir';
+    src: url('../fonts/Vazir.ttf') format('woff2'),
+        url('../fonts/Vazir.woff') format('woff'),
+        url('../fonts/Vazir.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
